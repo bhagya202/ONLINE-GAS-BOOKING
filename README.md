@@ -1,77 +1,115 @@
-# 🏠 online_gas_booking_service
+# Online Gas Booking 🚀  
 
-Flask project for online gas booking with user and admin login and booking system  
-
-## 📌 Online Gas Booking Service  
-A Flask-based web application for booking and tracking gas cylinders.  
-This project provides separate **User** and **Admin** panels with authentication, booking, payment, and tracking features.
+An online gas booking management system built with **Flask (Python)** for the backend and **HTML, CSS, JavaScript** for the frontend.  
+It provides both **User Panel** and **Admin Panel** with features like cylinder booking, payment, tracking, and inventory management.  
 
 ---
 
-## ✨ Features
+## 📂 Project Structure  
 
-- 🔐 **User Authentication** (Register/Login)  
-- 👤 **User Profile Management**  
-- 📦 **Book Cylinder** (with unique Cylinder ID & Date)  
-- 🔎 **Track Booking** (view status after booking)  
-- 💳 **Payment Integration** (simulated)  
-- 🛠️ **Admin Panel** for managing bookings and users  
-- ⚡ Clean and modern frontend with HTML, CSS, and JavaScript  
+    ONLINE_GAS_BOOKING/
+    │── flask_session/ # Flask session files
+    │── static/ # Static assets (CSS, JS, Images)
+    │ ├── CSS/main.css
+    │ ├── Js/script.js
+    │ └── image/
+    │── templates/ # HTML templates
+    │ ├── admin.html
+    │ ├── admin_customers.html
+    │ ├── admin_inventory.html
+    │ ├── admin_orders.html
+    │ ├── admin_settings.html
+    │ ├── adminlogin.html
+    │ ├── bookcylinder.html
+    │ ├── bookinghistory.html
+    │ ├── index.html
+    │ ├── login.html
+    │ ├── newconnection.html
+    │ ├── passwordchange.html
+    │ ├── payment.html
+    │ ├── payment_history.html
+    │ ├── profile.html
+    │ ├── profileupdate.html
+    │ └── trackbooking.html
+    │── app.py # Main Flask application
+    │── database.sql # Database schema
+    └── OnlineGasBookingService.session.sql
+
+
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Features  
 
-- **Frontend:** HTML, CSS, JavaScript  
-- **Backend:** Flask (Python)  
-- **Database:** MySQL  
-- **Other Tools:** Bootstrap (UI), Flask-Login (Authentication)  
+### 👤 User Panel  
+- User registration & login  
+- Book new cylinder online  
+- View booking history  
+- Track cylinder status  
+- Online payment option  
+- Update profile & change password  
+
+### 🔑 Admin Panel  
+- Secure admin login  
+- Manage customers  
+- Manage cylinder inventory  
+- View and update orders  
+- Manage settings  
 
 ---
 
-## 📂 Project Structure
-```
-ONLINE_GAS_BOOKING/
-│
-├── static/
-│   ├── CSS/
-│   │   └── main.css
-│   │
-│   ├── image/
-│   │
-│   └── Js/
-│       └── script.js
-│
-├── templates/
-│   ├── admin_customers.html
-│   ├── admin_inventory.html
-│   ├── admin_orders.html
-│   ├── admin_settings.html
-│   ├── admin.html
-│   ├── adminlogin.html
-│   ├── bookcylinder.html
-│   ├── bookinghistory.html
-│   ├── index.html
-│   ├── login.html
-│   ├── newconnection.html
-│   ├── passwordchange.html
-│   ├── payment_history.html
-│   ├── payment.html
-│   ├── profile.html
-│   ├── profileupdate.html
-│   ├── register.html
-│   └── trackbooking.html
-│
-├── app.py
-└── OnlineGasBookingService.session.sql
+## 🛠️ Tech Stack  
 
+- **Frontend**: HTML5, CSS3, JavaScript  
+- **Backend**: Python (Flask)  
+- **Database**: MySQL / SQLite  
+- **Version Control**: Git & GitHub  
 
---- 
+---
 
-⚙️ Installation & Setup
+## 🚀 Installation & Setup  
 
+1. **Clone the repository**  
+   ```
+   git clone https://github.com/<your-username>/Online-Gas-Booking.git
+   cd Online-Gas-Booking
+Create Virtual Environment & Install Dependencies
 
-1. Clone the repository  
-  
-   git clone https://github.com/bhagya202/online_gas_booking_service.git
-   cd online_gas_booking_service
+    python -m venv venv
+    source venv/bin/activate  # On Linux/Mac
+    venv\Scripts\activate     # On Windows
+    pip install -r requirements.txt
+    Setup Database
+
+Import database.sql into MySQL or use SQLite.
+
+Update database configuration in app.py.
+
+Run Application
+
+    python app.py
+    Visit http://127.0.0.1:5000/ in your browser.
+
+📸 Screenshots (Optional)
+(You can add screenshots later for a more professional touch.)
+
+💡 Future Improvements
+Email & SMS notifications for bookings
+
+Payment gateway integration
+
+Analytics dashboard for Admin
+
+Deploy on cloud (Heroku/AWS/Render)
+
+📜 License
+This project is licensed under the MIT License – feel free to use and modify.
+
+👤 Author
+Bhagyashree Nikam
+
+GitHub
+
+LinkedIn
+
+---

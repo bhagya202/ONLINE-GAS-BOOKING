@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GasConnect - Online Gas Booking</title>
+    <!-- Corrected website icon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/img.webp.png') }}">
+    <!-- Corrected stylesheet path -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <span class="close-sidebar" id="closeSidebar">&times;</span>
+            <ul class="sidebar-links">
+                <li><a href='/newconnection'>New Connection</a></li>
+                <li><a href='/bookcylinder'>Book Cylinder</a></li>
+                <li><a href='/bookinghistory'>Book History</a></li>
+                <li><a href='/profileupdate'>Profile Update</a></li>
+                <li><a href='/passwordchange'>Password Change</a></li>
+                <li><a href='/trackbooking'>Track Booking</a></li>
+                       
+            </ul>
+        </div>
+    </div>
+    
+ <!-- Header -->
+<header class="header">
+    <nav class="nav-container">
+        <div class="menu-toggle" id="menuToggle">☰</div>
+        
+        <!-- Logo with text -->
+        <div class="logo">
+            <img src="{{ url_for('static', filename='/image/img.webp.png') }}" alt="GasConnect Logo">
+            <span>Online Gas Booking</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#booking">Book Now</a>
+            <a href="#contact">Contact</a>
+            <a href="/login">Login</a>
+            <a href="/admin_login">Admin Login</a>
+                        
+            <div class="profile-icon" id="profileIcon" style="display: none;"> 
+                <img src="{{ url_for('static', filename='image/img.webp2.png') }}" alt="Profile Icon">
+            </div>
+            
+            <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var isLoggedIn = localStorage.getItem("isLoggedIn");
+        
+            if (isLoggedIn === "true") {
+                document.getElementById("profileIcon").style.display = "block";
+            } else {
+                document.getElementById("profileIcon").style.display = "none";
+            }
+        });
+        
+        function goToProfile() {
+            window.location.href = '/profile'; 
+        }
+        
+    </script>
+  </div>  
+    </nav>
+</header>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Quick & Easy Gas Booking</h1>
+            <p>Book your LPG cylinder from the comfort of your home. Fast delivery, secure payment, and excellent
+                service.</p>
+            <a href='/bookcylinder' class="cta-button">Book Now</a>
+        </div>
+    </section>
+
+ <!-- Services Section -->
+<section class="services" id="services">
+    <div class="section-title">
+        <h2>Our Services</h2>
+    </div>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-truck-fast"></i></div>
+            <h3>Home Delivery</h3>
+            <p>Quick and safe delivery right to your doorstep</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-credit-card"></i></div>
+            <h3>Online Payment</h3>
+            <p>Secure and convenient payment options</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-gas-pump"></i></div>
+            <h3>Easy Refill</h3>
+            <p>Simple booking process for refills</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-headset"></i></div>
+            <h3>24/7 Support</h3>
+            <p>Round-the-clock customer service</p>
+        </div>
+    </div>
+</section>
+
+  <!-- LPG Brands Section -->
+<section class="lpg-brands" id="brands">
+    <div class="section-title">
+        <h3>Our LPG Brands</h3>
+    </div>
+    <div class="brands-grid">
+        <div class="brand-card" onclick="openModal('HP Gas', `HP Gas, a division of Hindustan Petroleum Corporation Limited (HPCL), has been a trusted provider of liquefied petroleum gas (LPG) since 1979. Known for its commitment to safety, quality, and efficient service, HP Gas has established itself as a key player in the LPG industry. 
+
+        With an extensive distribution network, HP Gas ensures seamless supply to households, commercial establishments, and industries across the country. The company prioritizes customer convenience through its digital initiatives, allowing easy online booking, payment options, and real-time tracking. Stringent safety measures and a dedicated customer support system further reinforce HP Gas’s position as a reliable and customer-centric LPG provider.`)">
+            <img src="https://tse1.mm.bing.net/th?id=OIP.wGF0ib-q4uwEcS0YAG-zawHaHa&w=474&h=474&c=7" alt="HP Gas">
+            <h3>HP Gas</h3>
+            <p>A trusted name in LPG supply with a commitment to safety and efficiency.</p>
+        </div>
+
+        <div class="brand-card" onclick="openModal('Bharat Gas', `Established in 1955, Bharat Gas operates under the umbrella of Bharat Petroleum Corporation Limited (BPCL), delivering high-quality LPG solutions to millions of consumers across India. With a robust distribution network and a strong emphasis on customer satisfaction, Bharat Gas has earned a reputation for reliability and excellence.
+
+        The brands extensive reach ensures uninterrupted gas supply to households and businesses, while its innovative digital services provide seamless booking and doorstep delivery. Bharat Gas remains committed to environmental sustainability and safety, integrating advanced safety features in its cylinders and promoting efficient energy use. Its government-backed subsidy programs further enhance affordability, making Bharat Gas an ideal choice for consumers nationwide.`)">
+            <img src="https://tse2.mm.bing.net/th?id=OIP.2ING9HI6UBXGuvR5vMtqTgHaHa&w=474&h=474&c=7" alt="Bharat Gas">
+            <h3>Bharat Gas</h3>
+            <p>A leading LPG provider known for extensive reach and superior service.</p>
+        </div>
+
+        <div class="brand-card" onclick="openModal('Indane Gas', `Indane Gas, a flagship brand of Indian Oil Corporation Limited (IOCL), was introduced in 1965 and has grown to become the largest LPG distributor in India. Serving over 130 million families, Indane Gas has played a pivotal role in revolutionizing domestic energy consumption across urban and rural regions.
+
+        As a pioneer in the industry, Indane Gas offers a well-structured and efficient supply chain, ensuring timely delivery and accessibility for consumers. Its advanced online booking system and mobile application streamline the process of refilling and tracking LPG cylinders. With a strong focus on safety and quality assurance, Indane Gas upholds the highest industry standards, making it a preferred choice for millions of households and commercial users alike.`)">
+            <img src="https://tse3.mm.bing.net/th?id=OIP.svkzKN7cPXyGln5JKqA7OQHaHa&w=474&h=474&c=7" alt="Indane Gas">
+            <h3>Indane Gas</h3>
+            <p>Indias largest LPG provider with a commitment to quality and accessibility.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Modal (Hidden by default) -->
+<div id="brandModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="brandTitle"></h2>
+        <p id="brandDescription"></p>
+    </div>
+</div>
+
+<script>
+    // Open Modal Function
+    function openModal(brandName, brandInfo) {
+        document.getElementById("brandTitle").innerText = brandName;
+        document.getElementById("brandDescription").innerHTML = brandInfo;
+        document.getElementById("brandModal").style.display = "flex";
+    }
+
+    // Close Modal Function
+    function closeModal() {
+        document.getElementById("brandModal").style.display = "none";
+    }
+
+    // Close Modal on Click Outside
+    window.onclick = function(event) {
+        let modal = document.getElementById("brandModal");
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>
+
+ <!-- Booking Steps -->
+ <section class="booking-steps" id="booking">
+    <div class="steps-container">
+        <div class="section-title">
+            <h2>How to Book</h2>
+        </div>
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Register</h3>
+                <p>Create your account with basic details</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Book</h3>
+                <p>Select your cylinder type and quantity</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Pay</h3>
+                <p>Make secure payment online</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Delivery</h3>
+                <p>Get delivery at your doorstep</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+ <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@gasconnect.com</p>
+                <p>Phone: 1800-123-4567</p>
+                <p>Address: 123 Gas Street, City, Country</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#search">Search</a></li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#booking">Book Now</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Safety Tips</h3>
+                <ul>
+                    <li><a href="#">Gas Leak Prevention</a></li>
+                    <li><a href="#">Safety Guidelines</a></li>
+                    <li><a href="#">Emergency Response</a></li>
+                    <li><a href="#">Maintenance Tips</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='Js/script.js') }}"></script>
+</body>
+</html>

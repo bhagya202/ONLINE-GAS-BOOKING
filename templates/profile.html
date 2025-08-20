@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Gas Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff6f61, #2d3436);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #fff, #ff6f61);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 25px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: 0.3s ease;
+            position: relative;
+        }
+
+        .sidebar ul li a:hover {
+            background: #ff6f61;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar ul li a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 111, 97, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: 0.3s ease;
+            z-index: -1;
+        }
+
+        .sidebar ul li a:hover::after {
+            opacity: 1;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-icon {
+            width: 100px;
+            height: 100px;
+            background: #ff6f61;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            margin-right: 30px;
+            text-transform: uppercase;
+        }
+
+        .profile-info h1 {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, #ff6f61);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .profile-info p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-section h2 {
+            font-size: 24px;
+            color: #ff6f61;
+            margin-bottom: 20px;
+        }
+
+        .info-section p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-icon {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>User Dashboard</h2>
+        <ul>
+            <li><a href="{{ url_for('bookcylinder') }}">Book Cylinder</a></li>
+            {% if latest_booking and latest_booking.status != 'Cancelled' %}
+                <li><a href="{{ url_for('cancel_booking', booking_id=latest_booking.booking_id) }}">Cancel Booking</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('password_change') }}">Password Change</a></li>
+            <li><a href="{{ url_for('profile_update') }}">Profile Update</a></li>
+            <li><a href="{{ url_for('booking_history') }}">Booking History</a></li>
+            <li><a href="{{ url_for('track_booking') }}">Track Booking</a></li>
+            {% if last_booking %}
+            <li><a href="{{ url_for('payment', booking_id=last_booking.booking_id) }}">Payment</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('payment_history') }}">Payment History</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <div class="profile-icon">{{ user.name[0] }}</div>
+            <div class="profile-info">
+                <h1>{{ user.name }}</h1>
+                <p>Customer ID: #{{ user.user_id }}</p>
+            </div>
+        </div>
+<!-- Personal Info -->
+<div class="info-section">
+    <h2>Personal Information</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Phone:</strong> {{ user.phone }}</p>
+    </div> 
+
+    <script>
+        function logoutUser() {
+            fetch("{{ url_for('logout') }}")
+                .then(response => {
+                    if (response.ok) {
+                        alert("Logged out successfully!");
+                        window.location.href = "/";
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

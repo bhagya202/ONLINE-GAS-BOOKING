@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Cylinder - Online Gas Booking Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff6f61, #2d3436);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus {
+          color: #000;  
+          background: #fff;
+        }
+        input::placeholder {
+          color: rgba(200, 200, 200, 0.7);
+        }
+        textarea {
+          width: 100%;
+          padding: 12px;
+          margin-bottom: 20px;
+          border: none;
+          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.2);
+          color: #fff;
+          font-size: 1rem;
+          resize: none; /* Prevents resizing */
+          height: 50px; /* Adjust height as needed */
+          transition: all 0.3s ease;
+      }
+      textarea:focus {
+          background: #fff;
+          color: #000;
+          outline: none;
+      }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff6f61;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #e65b50;
+            transform: scale(1.02);
+        }
+        .flash-message {
+            color: #fff;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book a Cylinder</h1>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            {% if category == 'danger' %}
+              <div style="color: white; background-color: #dc3545; border-radius: 5px; padding: 10px; text-align: center; margin: 10px 0;">
+                {{ message }}
+              </div>
+            {% else %}
+              <div style="color: white; background-color: #28a745; border-radius: 5px; padding: 10px; text-align: center; margin: 10px 0;">
+                {{ message }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      
+
+        <form id="book-cylinder-form" action="{{ url_for('bookcylinder') }}" method="POST">
+            <label for="gas-company">Select Gas Company:</label>
+            <select name="gas_company" id="gas-company" required>
+                <option value="HP Gas">HP Gas</option>
+                <option value="Indane Gas">Indane Gas</option>
+                <option value="Bharat Gas">Bharat Gas</option>
+            </select>
+              
+              <select name="cylinder_type">
+                <option value="Domestic">Domestic</option>
+                <option value="Commercial">Commercial</option>
+              </select>
+              
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" placeholder="Enter quantity" required>
+
+            <label for="delivery-date">Preferred Delivery Date:</label>
+            <input type="date" name="delivery_date" id="delivery-date" required>
+
+            <label for="address">Delivery Address:</label>
+            <textarea name="address" required></textarea>
+
+            <button type="submit">Book Cylinder</button>
+        </form>
+    </div>
+</body>
+</html>

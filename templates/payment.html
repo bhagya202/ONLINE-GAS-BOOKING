@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment - PayNow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .payment-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 { color: #2c3e50; margin-bottom: 20px; }
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .method {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .method:hover, .method.active {
+            border-color: #2c3e50;
+            background: #f8fafc;
+        }
+        .method i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #2c3e50;
+        }
+        .payment-details {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .payment-details label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        .payment-details input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #2c3e50;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 15px;
+        }
+        button:hover { background: #34495e; }
+        .secure-notice {
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 15px;
+        }
+        .secure-notice i { color: #27ae60; }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Select Payment Method</h2>
+
+        <form action="{{ url_for('payment', booking_id=booking_id) }}" method="POST">
+            <input type="hidden" name="booking_id" value="{{ booking_id }}">
+            <input type="hidden" name="payment_method" id="payment_method">
+
+            <div class="payment-methods">
+                <div class="method" data-method="card">
+                    <i class="fas fa-credit-card"></i> <span>Credit/Debit Card</span>
+                </div>
+                <div class="method" data-method="upi">
+                    <i class="fas fa-mobile-alt"></i> <span>UPI</span>
+                </div>
+                <div class="method" data-method="cash">
+                    <i class="fas fa-money-bill-wave"></i> <span>Cash on Delivery</span>
+                </div>
+            </div>
+
+            <!-- Card Details -->
+            <div class="payment-details" id="card-details">
+                <label for="card_number">Card Number</label>
+                <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456">
+
+                <label for="card_holder">Card Holder Name</label>
+                <input type="text" id="card_holder" name="card_holder" placeholder="John Doe">
+
+                <label for="expiry">Expiry Date (MM/YY)</label>
+                <input type="text" id="expiry" name="expiry" placeholder="MM/YY">
+
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123">
+            </div>
+
+            <!-- UPI Details -->
+            <div class="payment-details" id="upi-details">
+                <label for="upi_id">UPI ID</label>
+                <input type="text" id="upi_id" name="upi_id" placeholder="example@upi">
+            </div>
+
+            <button type="submit">Pay Now</button>
+        </form>
+
+        <div class="secure-notice">
+            <i class="fas fa-lock"></i> Secured by PayNow Gateway
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.method').click(function() {
+                $('.method').removeClass('active');
+                $(this).addClass('active');
+                const method = $(this).data('method');
+                $('#payment_method').val(method);
+
+                $('.payment-details').hide();
+                if (method === 'card') {
+                    $('#card-details').show();
+                    $('#card_number, #card_holder, #expiry, #cvv').attr('required', true);
+                    $('#upi_id').removeAttr('required');
+                } else if (method === 'upi') {
+                    $('#upi-details').show();
+                    $('#upi_id').attr('required', true);
+                    $('#card_number, #card_holder, #expiry, #cvv').removeAttr('required');
+                } else {
+                    $('#card-details, #upi-details').hide();
+                    $('#upi_id, #card_number, #card_holder, #expiry, #cvv').removeAttr('required');
+                }
+            });
+
+            $('form').submit(function(e) {
+                if (!$('#payment_method').val()) {
+                    e.preventDefault();
+                    alert('Please select a payment method.');
+                }
+                // Optionally validate card or UPI details here
+                const method = $('#payment_method').val();
+                if (method === 'card') {
+                    if (!$('#card_number').val() || !$('#card_holder').val() || !$('#expiry').val() || !$('#cvv').val()) {
+                        e.preventDefault();
+                        alert('Please fill in all card details.');
+                        return;
+                    }
+                } else if (method === 'upi') {
+                    if (!$('#upi_id').val()) {
+                        e.preventDefault();
+                        alert('Please enter your UPI ID.');
+                        return;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

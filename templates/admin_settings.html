@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff6f61, #2d3436);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 280px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: 0.4s ease;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 25px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background: #ff6f61;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+        }
+
+        .settings {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .settings h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .settings form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .settings label {
+            font-size: 18px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .settings input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .settings input[type="number"],
+        .settings input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .settings input[type="number"]:focus,
+        .settings input[type="text"]:focus {
+            background: rgba(255, 255, 255, 0.3);
+            outline: none;
+        }
+
+        .settings button {
+            padding: 12px;
+            background: #ff6f61;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .settings button:hover {
+            background: #e65b50;
+            transform: scale(1.02);
+        }
+
+        .flash-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .flash-message.success {
+            background: rgba(0, 255, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('admin_orders') }}">Orders</a></li>
+            <li><a href="{{ url_for('admin_customers') }}">Customers</a></li>
+            <li><a href="{{ url_for('admin_inventory') }}">Inventory</a></li>
+            <li><a href="{{ url_for('admin_settings') }}">Settings</a></li>
+            <li><a href="{{ url_for('admin_logout') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="settings">
+            <h2>Admin Settings</h2>
+            <form method="POST" action="{{ url_for('admin_settings') }}">
+                <div>
+                    <label for="maintenance_mode">
+                        <input type="checkbox" id="maintenance_mode" name="maintenance_mode" 
+                               {% if settings.maintenance_mode == '1' %}checked{% endif %}>
+                        Enable Maintenance Mode
+                    </label>
+                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                        Enable to temporarily disable booking functionality for users.
+                    </p>
+                </div>
+                
+                <div>
+                    <label for="max_bookings">Max Bookings Per Day</label>
+                    <input type="number" id="max_bookings" name="max_bookings" 
+                           value="{{ settings.max_bookings_per_day }}" min="1" required>
+                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                        Set the maximum number of bookings allowed per day.
+                    </p>
+                </div>
+                
+                <div>
+                    <label for="email_notifications">
+                        <input type="checkbox" id="email_notifications" name="email_notifications" 
+                               {% if settings.email_notifications == '1' %}checked{% endif %}>
+                        Enable Email Notifications
+                    </label>
+                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                        Receive email alerts for new bookings or critical updates.
+                    </p>
+                </div>
+                
+                <div>
+                    <label for="domestic_price">Domestic Cylinder Price (₹)</label>
+                    <input type="text" id="domestic_price" name="domestic_price" 
+                           value="{{ settings.domestic_price }}" pattern="\d+(\.\d{1,2})?" required>
+                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                        Default price for domestic cylinders.
+                    </p>
+                </div>
+                
+                <div>
+                    <label for="commercial_price">Commercial Cylinder Price (₹)</label>
+                    <input type="text" id="commercial_price" name="commercial_price" 
+                           value="{{ settings.commercial_price }}" pattern="\d+(\.\d{1,2})?" required>
+                    <p style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                        Default price for commercial cylinders.
+                    </p>
+                </div>
+                
+                <button type="submit">Save Settings</button>
+            </form>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+</html>

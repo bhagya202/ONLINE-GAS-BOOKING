@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Booking</title>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff6f61, #2c3e50);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .track-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #ff6f61;
+            text-align: center;
+        }
+        .info {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .info span {
+            font-weight: 600;
+            color: #ff6f61;
+        }
+        .progress-bar {
+            margin: 20px 0;
+            background: #ddd;
+            height: 12px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .progress-bar div {
+            background: #ff6f61;
+            height: 100%;
+            width: 70%;
+            transition: width 0.4s ease;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+        .map-container {
+            height: 300px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #ff6f61;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background: #e65b50;
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff6f61;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="track-container">
+        <div class="section-title">Track Your Gas Cylinder</div>
+        <form action="{{ url_for('track_booking') }}" method="GET">
+        <!-- Order Details -->
+        <input type="text" name="booking_id" placeholder="Enter Booking ID" required>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div></div>
+        </div>
+        <div class="progress-label">
+            <span>Order Confirmed</span>
+            <span>In Transit</span>
+            <span>Delivered</span>
+        </div>
+
+        <!-- Map Container -->
+        <div id="map" class="map-container"></div>
+        <div class="info">
+            <span>Current Location:</span> Delivery Vehicle is near ABC Street, Mumbai
+        </div>
+
+        <!-- Refresh Button -->
+        <a href="trackbooking.html" class="btn">Refresh</a>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Status Update: Your cylinder is out for delivery!
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Function to show notification
+        function showNotification(message) {
+            const notification = document.getElementById("notification");
+            notification.textContent = message;
+            notification.style.display = "block";
+
+            // Hide after 5 seconds
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 5000);
+        }
+
+        // Simulate Status Notification
+        window.onload = function () {
+            showNotification("Your cylinder is out for delivery!");
+        };
+
+        // Simulate Progress Bar Update
+        setTimeout(() => {
+            const progressBar = document.querySelector(".progress-bar div");
+            progressBar.style.width = "90%"; // Progress updated
+        }, 2000);
+
+        // Initialize the Leaflet Map
+        const map = L.map('map').setView([19.0760, 72.8777], 13); // Example: Mumbai coordinates
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // Add a marker to show the current location of the delivery vehicle
+        const marker = L.marker([19.0760, 72.8777]).addTo(map);
+        marker.bindPopup("<b>Your Cylinder is Here!</b><br>Near ABC Street, Mumbai.").openPopup();
+    </script>
+</body>
+</html>
+
+

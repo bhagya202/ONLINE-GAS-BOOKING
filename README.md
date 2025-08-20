@@ -90,9 +90,6 @@ Run Application
     python app.py
     Visit http://127.0.0.1:5000/ in your browser.
 
-📸 Screenshots (Optional)
-(You can add screenshots later for a more professional touch.)
-
 💡 Future Improvements
 Email & SMS notifications for bookings
 

@@ -71,7 +71,7 @@ It provides both **User Panel** and **Admin Panel** with features like cylinder 
 
 1. **Clone the repository**  
    ```
-   git clone https://github.com/<your-username>/Online-Gas-Booking.git
+   git clone https://github.com/<bhagya202>/Online-Gas-Booking.git
    cd Online-Gas-Booking
 Create Virtual Environment & Install Dependencies
 
